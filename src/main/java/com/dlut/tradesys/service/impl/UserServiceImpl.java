@@ -64,6 +64,7 @@ public class UserServiceImpl implements UserService {
     public Result cancel(Long userId) {
         if(userMapper.cancel(userId)) {
             // 关联数据库的信息删除 暂空
+
             return Result.success().addMsg("注销成功.");
         }
         return Result.fail().addMsg("注销失败.");
