@@ -17,9 +17,6 @@ public class Cart{
     private Long userId;
     private Long itemId;
     private Integer amount;
-    private String name;
-    private String spec;
-    private Integer price;
-    private String image;
+    private Integer specId;
     private Long shopId;
 }
