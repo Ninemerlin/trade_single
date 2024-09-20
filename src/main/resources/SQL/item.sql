@@ -15,7 +15,7 @@ CREATE TABLE `item` (
   `brand` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '品牌名称',
   `spec` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '规格',
   `sold` int DEFAULT '0' COMMENT '销量',
-  `status` int DEFAULT '2' COMMENT '商品状态 1-正常，2-下架，3-删除',
+  `status` int DEFAULT '1' COMMENT '商品状态 1-正常，2-下架，3-删除',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `shop_id` bigint DEFAULT NULL COMMENT '归属商店id',
