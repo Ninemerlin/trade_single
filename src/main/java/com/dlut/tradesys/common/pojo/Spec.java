@@ -16,6 +16,4 @@ public class Spec{
     private Long id;
     private Long itemId;
     private String name;
-    private Integer price;
-    private Integer stock;
 }
