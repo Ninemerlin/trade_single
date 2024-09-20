@@ -21,6 +21,7 @@ public class User{
     private String username;
     private String password;
     private String mobile;
+    private String email;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
     private UserStatus status; // 使用状态（1正常 2冻结）
