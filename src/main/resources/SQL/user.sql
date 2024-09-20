@@ -25,9 +25,9 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'Jack', '$2a$10$6ptTq3V9XfaJmFYwYT2W9ud377BUkEWk.whf.iQ.0sX5F.L497rAC', '13900112224', '2017-08-19 20:50:21', '2017-08-19 20:50:21', 1, 1, null, '男', '1990-01-04', 'HELLO');
-INSERT INTO `user` VALUES (2, 'Rose', '$2a$10$6ptTq3V9XfaJmFYwYT2W9ud377BUkEWk.whf.iQ.0sX5F.L497rAC', '13900112223', '2017-08-19 21:00:23', '2017-08-19 21:00:23', 1, 1, null, '女', '1998-08-11', 'HELLO');
-INSERT INTO `user` VALUES (3, 'Hope', '$2a$10$6ptTq3V9XfaJmFYwYT2W9ud377BUkEWk.whf.iQ.0sX5F.L497rAC', '13900112222', '2017-08-19 22:37:44', '2017-08-19 22:37:44', 1, 2, null, '女', '2003-02-04', 'HELLO');
-INSERT INTO `user` VALUES (4, 'Thomas', '$2a$10$6ptTq3V9XfaJmFYwYT2W9ud377BUkEWk.whf.iQ.0sX5F.L497rAC', '17701265258', '2017-08-19 23:44:45', '2017-08-19 23:44:45', 1, 3, null, '男', '2010-11-22', 'HELLO');
+INSERT INTO `user` VALUES (1, 'Jack', 'pwd1', '13900112224', '2017-08-19 20:50:21', '2017-08-19 20:50:21', 1, 1, null, '男', '1990-01-04', 'HELLO');
+INSERT INTO `user` VALUES (2, 'Rose', 'pwd2', '13900112223', '2017-08-19 21:00:23', '2017-08-19 21:00:23', 1, 1, null, '女', '1998-08-11', 'HELLO');
+INSERT INTO `user` VALUES (3, 'Hope', 'pwd3', '13900112222', '2017-08-19 22:37:44', '2017-08-19 22:37:44', 1, 2, null, '女', '2003-02-04', 'HELLO');
+INSERT INTO `user` VALUES (4, 'Thomas', 'pwd4', '17701265258', '2017-08-19 23:44:45', '2017-08-19 23:44:45', 1, 3, null, '男', '2010-11-22', 'HELLO');
 
 SET FOREIGN_KEY_CHECKS = 1;
