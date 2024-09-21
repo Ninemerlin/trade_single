@@ -30,4 +30,8 @@ public interface UserMapper {
     // 任意列修改
     @Update("update user set ${column} = #{value} where id = #{userId}")
     boolean setAttribute(Long userId, String column, Object value);
+
+    // 外部service使用
+    @Select("select user_type from user where id = #{userId}")
+    Integer getUserTypeById(Long userId);
 }
