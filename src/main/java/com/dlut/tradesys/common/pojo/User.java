@@ -19,6 +19,7 @@ public class User{
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     private String username;
+    private String nickname;
     private String password;
     private String mobile;
     private String email;

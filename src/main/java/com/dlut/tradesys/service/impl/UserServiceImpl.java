@@ -1,5 +1,6 @@
 package com.dlut.tradesys.service.impl;
 
+import com.dlut.tradesys.common.dto.UserFormDTO;
 import com.dlut.tradesys.common.enums.UserStatus;
 import com.dlut.tradesys.common.pojo.result.Result;
 import com.dlut.tradesys.common.pojo.User;
@@ -10,6 +11,7 @@ import com.dlut.tradesys.utils.UserContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +45,8 @@ public class UserServiceImpl implements UserService {
         claims.put("id",u.getId());
         claims.put("name",u.getUsername());
         String jwt = JwtUtil.generateJwt(claims);
-        return Result.success().addMsg("登录成功.").addData("token",jwt);
+        u.setPassword(null);
+        return Result.success().addMsg("登录成功.").addData("token",jwt).addData("user",u);
     }
 
     @Override
@@ -51,7 +54,11 @@ public class UserServiceImpl implements UserService {
         if(userMapper.getUserByUsername(user.getUsername()) != null) {
             return Result.fail().addMsg("用户已存在.");
         }
+        if(user.getUserType() == 3) {
+            return Result.fail().addMsg("不可注册管理员.");
+        }
         user.setPassword(user.getPassword()); // 暂不加密
+        user.setNickname(user.getUsername());
         user.setStatus(UserStatus.NORMAL);
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
@@ -72,10 +79,52 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result modifyIcon(String url) {
-        if(userMapper.modifyIconPath(UserContext.getUser(), url)) {
+    public Result modifyIcon(Long userId, String url) {
+        if(userMapper.modifyIconPath(userId, url)) {
             return Result.success().addMsg("头像修改成功.");
         }
         return Result.fail().addMsg("头像修改失败.");
+    }
+
+    @Override
+    public Result getUser(Long userId) {
+        User u = userMapper.getUserById(userId);
+        if(u != null) {
+            return Result.success().addMsg("用户 "+ u.getUsername() + " 查询成功.").addData("user",u);
+        }
+        return Result.fail().addMsg("用户查询失败.");
+    }
+
+    @Override
+    public Result modifyUser(Long userId, UserFormDTO form) {
+        // 因为根据前端设计UserFormDTO可能有变动所以用反射
+        Field[] fields = UserFormDTO.class.getDeclaredFields();
+        for(Field f : fields) {
+            f.setAccessible(true);
+            try {
+                if(!userMapper.setAttribute(userId, f.getName(), f.get(form))){
+                    return Result.fail().addMsg("用户信息更新失败.");
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return Result.success().addMsg("用户信息更新成功.");
+    }
+
+    @Override
+    public Result modifyMail(Long userId, String mail) {
+        if(userMapper.modifyMail(userId, mail)) {
+            return Result.success().addMsg("邮箱修改成功.");
+        }
+        return Result.fail().addMsg("邮箱修改失败.");
+    }
+
+    @Override
+    public Result modifyPwd(Long userId, String password) {
+        if(userMapper.modifyPwd(userId, password)) {
+            return Result.success().addMsg("密码修改成功.");
+        }
+        return Result.fail().addMsg("密码修改失败.");
     }
 }

@@ -1,5 +1,6 @@
 package com.dlut.tradesys.controller;
 
+import com.dlut.tradesys.common.dto.UserFormDTO;
 import com.dlut.tradesys.common.pojo.result.Result;
 import com.dlut.tradesys.common.pojo.User;
 import com.dlut.tradesys.service.UserService;
@@ -59,14 +60,67 @@ class UserController {
 
     @PutMapping("/modifyIcon")
     public Result modifyIcon(MultipartFile image) throws IOException {
+        Long userId = UserContext.getUser();
         System.out.println("[UserService] Image Modifying...");
         String url = aliOSSUtils.upload(image);
-        Result result = userService.modifyIcon(url);
+        Result result = userService.modifyIcon(userId, url);
         if(result.getCode() == 200){
             System.out.println("[UserService] Image Modification Succeeded.");
             return result;
         }
         System.out.println("[UserService] Image Modification Failed.");
+        return result;
+    }
+
+    @GetMapping("/getUser")
+    public Result getUser(){
+        Long userId = UserContext.getUser();
+        System.out.println("[UserService] GetUserInfo : " + userId);
+        Result result = userService.getUser(userId);
+        if(result.getCode() == 200){
+            System.out.println("[UserService] GetUserInfo Succeeded.");
+            return result;
+        }
+        System.out.println("[UserService] GetUserInfo Failed.");
+        return result;
+    }
+
+    @PutMapping("/modifyUser")
+    public Result modifyUser(UserFormDTO form){
+        Long userId = UserContext.getUser();
+        System.out.println("[UserService] UserInfo Modifying...");
+        Result result = userService.modifyUser(userId, form);
+        if(result.getCode() == 200){
+            System.out.println("[UserService] UserInfo Modification Succeeded.");
+            return result;
+        }
+        System.out.println("[UserService] UserInfo Modification Failed.");
+        return result;
+    }
+
+    @PutMapping("/modifyMail")
+    public Result modifyMail(String email){
+        Long userId = UserContext.getUser();
+        System.out.println("[UserService] Email Modifying...");
+        Result result = userService.modifyMail(userId, email);
+        if(result.getCode() == 200){
+            System.out.println("[UserService] Email Modification Succeeded.");
+            return result;
+        }
+        System.out.println("[UserService] Email Modification Failed.");
+        return result;
+    }
+
+    @PutMapping("/modifyPwd")
+    public Result modifyPwd(String password){
+        Long userId = UserContext.getUser();
+        System.out.println("[UserService] Password Modifying...");
+        Result result = userService.modifyPwd(userId, password);
+        if(result.getCode() == 200){
+            System.out.println("[UserService] Password Modification Succeeded.");
+            return result;
+        }
+        System.out.println("[UserService] Password Modification Failed.");
         return result;
     }
 }
