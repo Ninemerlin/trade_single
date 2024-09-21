@@ -18,5 +18,6 @@ spring:
 aliyun:
   oss:
     endpoint: https://oss-cn-beijing.aliyuncs.com
-
+    accessKeyId: LTAI5tKrz2u2GdbY768nppH5
+    accessKeySecret: sVsHQlDDgmrVhD9TEXMP5Ty4m275gC
     bucketName: tlias-zincoid
