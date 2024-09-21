@@ -58,20 +58,6 @@ class UserController {
         return result;
     }
 
-    @PutMapping("/modifyIcon")
-    public Result modifyIcon(MultipartFile image) throws IOException {
-        Long userId = UserContext.getUser();
-        System.out.println("[UserService] Image Modifying...");
-        String url = aliOSSUtils.upload(image);
-        Result result = userService.modifyIcon(userId, url);
-        if(result.getCode() == 200){
-            System.out.println("[UserService] Image Modification Succeeded.");
-            return result;
-        }
-        System.out.println("[UserService] Image Modification Failed.");
-        return result;
-    }
-
     @GetMapping("/getUser")
     public Result getUser(){
         Long userId = UserContext.getUser();
@@ -121,6 +107,33 @@ class UserController {
             return result;
         }
         System.out.println("[UserService] Password Modification Failed.");
+        return result;
+    }
+
+//    @PutMapping("/modifyIcon")
+//    public Result modifyIcon(MultipartFile image) throws IOException {
+//        Long userId = UserContext.getUser();
+//        System.out.println("[UserService] Image Modifying...");
+//        String url = aliOSSUtils.upload(image);
+//        Result result = userService.modifyIcon(userId, url);
+//        if(result.getCode() == 200){
+//            System.out.println("[UserService] Image Modification Succeeded.");
+//            return result;
+//        }
+//        System.out.println("[UserService] Image Modification Failed.");
+//        return result;
+//    }
+
+    @PutMapping("/modifyIcon")
+    public Result modifyIcon(String icon){
+        Long userId = UserContext.getUser();
+        System.out.println("[UserService] Image Modifying...");
+        Result result = userService.modifyIcon(userId, icon);
+        if(result.getCode() == 200){
+            System.out.println("[UserService] Image Modification Succeeded.");
+            return result;
+        }
+        System.out.println("[UserService] Image Modification Failed.");
         return result;
     }
 }
