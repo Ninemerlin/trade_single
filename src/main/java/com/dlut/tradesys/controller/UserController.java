@@ -86,7 +86,7 @@ class UserController {
     }
 
     @PutMapping("/modifyUser")
-    public Result modifyUser(UserFormDTO form){
+    public Result modifyUser(@RequestBody UserFormDTO form){
         Long userId = UserContext.getUser();
         System.out.println("[UserService] UserInfo Modifying...");
         Result result = userService.modifyUser(userId, form);
