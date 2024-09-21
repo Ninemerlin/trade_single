@@ -10,7 +10,7 @@ CREATE TABLE `user`  (
   `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
   `password` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
   `mobile` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号',
-  `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '邮箱',
+  `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '邮箱',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL,
   `status` int NULL DEFAULT 1 COMMENT '使用状态（1正常 2冻结）',
