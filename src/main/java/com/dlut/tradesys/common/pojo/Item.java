@@ -23,7 +23,7 @@ public class Item{
     private String image;
     private String category;
     private String brand;
-    private String spec;
+//    private String spec;
     private Integer sold;
     private ItemStatus status;
     private LocalDateTime createTime;
