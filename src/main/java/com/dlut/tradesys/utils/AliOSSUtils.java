@@ -4,7 +4,6 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.dlut.tradesys.configs.AliOSSProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,7 +27,7 @@ public class AliOSSUtils {
 //    @Value("${aliyun.oss.bucketName}")
 //    private String bucketName;
 
-    AliOSSProperties aliOSSProperties;
+    private final AliOSSProperties aliOSSProperties;
 
     /**
      * 实现上传图片到OSS

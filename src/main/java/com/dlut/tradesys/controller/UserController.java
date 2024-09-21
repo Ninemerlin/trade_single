@@ -3,10 +3,14 @@ package com.dlut.tradesys.controller;
 import com.dlut.tradesys.common.pojo.result.Result;
 import com.dlut.tradesys.common.pojo.User;
 import com.dlut.tradesys.service.UserService;
+import com.dlut.tradesys.utils.AliOSSUtils;
 import com.dlut.tradesys.utils.UserContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RequestMapping("/user")
 @RestController
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 class UserController {
     private final UserService userService;
+    private final AliOSSUtils aliOSSUtils;
 
     @PostMapping("/login")
     public Result login(@RequestBody User user){
@@ -49,6 +54,19 @@ class UserController {
             return result;
         }
         System.out.println("[UserService] Cancel Failed.");
+        return result;
+    }
+
+    @PutMapping("/modifyIcon")
+    public Result modifyIcon(MultipartFile image) throws IOException {
+        System.out.println("[UserService] Image Modifying...");
+        String url = aliOSSUtils.upload(image);
+        Result result = userService.modifyIcon(url);
+        if(result.getCode() == 200){
+            System.out.println("[UserService] Image Modification Succeeded.");
+            return result;
+        }
+        System.out.println("[UserService] Image Modification Failed.");
         return result;
     }
 }

@@ -6,6 +6,7 @@ import com.dlut.tradesys.common.pojo.User;
 import com.dlut.tradesys.mapper.UserMapper;
 import com.dlut.tradesys.service.UserService;
 import com.dlut.tradesys.utils.JwtUtil;
+import com.dlut.tradesys.utils.UserContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -68,5 +69,13 @@ public class UserServiceImpl implements UserService {
             return Result.success().addMsg("注销成功.");
         }
         return Result.fail().addMsg("注销失败.");
+    }
+
+    @Override
+    public Result modifyIcon(String url) {
+        if(userMapper.modifyIconPath(UserContext.getUser(), url)) {
+            return Result.success().addMsg("头像修改成功.");
+        }
+        return Result.fail().addMsg("头像修改失败.");
     }
 }

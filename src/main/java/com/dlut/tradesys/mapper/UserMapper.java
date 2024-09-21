@@ -1,10 +1,7 @@
 package com.dlut.tradesys.mapper;
 
 import com.dlut.tradesys.common.pojo.User;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserMapper {
@@ -17,4 +14,7 @@ public interface UserMapper {
 
     @Delete("delete from user where id = #{userId}")
     boolean cancel(Long userId);
+
+    @Update("update user set icon = #{url} where id = #{id}")
+    boolean modifyIconPath(Long id, String url);
 }

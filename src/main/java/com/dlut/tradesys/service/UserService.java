@@ -9,4 +9,6 @@ public interface UserService {
     Result register(User user);
 
     Result cancel(Long userId);
+
+    Result modifyIcon(String url);
 }
