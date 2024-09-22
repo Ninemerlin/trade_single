@@ -7,4 +7,8 @@ public interface CartService {
     Result getCart(Long userId);
 
     Result addCart(Long userId, Cart cart);
+
+    Result modifyCartAmount(Long cartId, Integer amount);
+
+    Result deleteCart(Integer cartId);
 }

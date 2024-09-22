@@ -41,4 +41,30 @@ public class CartController {
         System.out.println("[CartService] AddCart Failed.");
         return result;
     }
+
+    @PutMapping("/modifyCartAmount")
+    public Result modifyCartAmount(Long cartId, Integer amount) {
+        Long userId = UserContext.getUser();
+        System.out.println("[CartService] ModifyCartAmount : userId " + userId + " cartId " + cartId);
+        Result result = cartService.modifyCartAmount(cartId, amount);
+        if(result.getCode() == 200){
+            System.out.println("[CartService] ModifyCartAmount Succeeded.");
+            return result;
+        }
+        System.out.println("[CartService] ModifyCartAmount Failed.");
+        return result;
+    }
+
+    @DeleteMapping("/deleteCart/{cartId}")
+    public Result deleteCart(@PathVariable Integer cartId) {
+        Long userId = UserContext.getUser();
+        System.out.println("[CartService] DeleteCart : userId " + userId + " cartId " + cartId);
+        Result result = cartService.deleteCart(cartId);
+        if(result.getCode() == 200){
+            System.out.println("[CartService] DeleteCart Succeeded.");
+            return result;
+        }
+        System.out.println("[CartService] DeleteCart Failed.");
+        return result;
+    }
 }

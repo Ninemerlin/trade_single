@@ -59,7 +59,6 @@ public class CartServiceImpl implements CartService {
     @Override
     public Result addCart(Long userId, Cart cart) {
         List<CartVO> cartVOList = (List<CartVO>) getCart(userId).getData().get("cartList");
-
         for (CartVO cartVO : cartVOList){
             if (cartVO.getShopId().equals(cart.getShopId())){
                 List<CartGroupVO> items = cartVO.getItems();
@@ -72,10 +71,38 @@ public class CartServiceImpl implements CartService {
                 }
             }
         }
+
+//        高人指点
+//        boolean updated = cartVOList.stream()
+//                .filter(cartVO -> cartVO.getShopId().equals(cart.getShopId()))
+//                .flatMap(cartVO -> cartVO.getItems().stream())
+//                .anyMatch(cartGroupVO -> cartGroupVO.getItemId().equals(cart.getItemId()) &&
+//                        cartGroupVO.getSpecId().equals(cart.getSpecId()) &&
+//                        cartMapper.modifyCartAmount(cartGroupVO.getCartId(), cartGroupVO.getAmount() + cart.getAmount()));
+//        if(updated){
+//            return Result.success().addMsg("购物车已存在该物品, 数量增加成功。");
+//        }
+
         cart.setUserId(userId);
         if(cartMapper.addCart(cart)) {
             return Result.success().addMsg("购物车添加成功.");
         }
         return Result.fail().addMsg("购物车添加失败.");
+    }
+
+    @Override
+    public Result modifyCartAmount(Long cartId, Integer amount) {
+        if(cartMapper.modifyCartAmount(cartId, amount)) {
+            return Result.success().addMsg("购物车条目数量修改成功.");
+        }
+        return Result.fail().addMsg("购物车条目数量修改失败.");
+    }
+
+    @Override
+    public Result deleteCart(Integer cartId) {
+        if(cartMapper.deleteCart(cartId)) {
+            return Result.success().addMsg("购物车条目删除成功.");
+        }
+        return Result.fail().addMsg("购物车条目删除失败.");
     }
 }

@@ -1,10 +1,7 @@
 package com.dlut.tradesys.mapper;
 
 import com.dlut.tradesys.common.pojo.Cart;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -19,4 +16,7 @@ public interface CartMapper {
 
     @Update("update cart set amount = #{amount} where id = #{cartId}")
     boolean modifyCartAmount(Long cartId, Integer amount);
+
+    @Delete("delete from cart where id = #{cartId}")
+    boolean deleteCart(Integer cartId);
 }
