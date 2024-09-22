@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class CartGroupVO {
+public class CartDetailVO {
     private Long cartId;
     private Long itemId;
     private Long specId;

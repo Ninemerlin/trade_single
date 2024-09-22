@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.dlut.tradesys.common.pojo.Cart;
 import com.dlut.tradesys.common.pojo.Item;
 import com.dlut.tradesys.common.pojo.result.Result;
-import com.dlut.tradesys.common.vo.CartGroupVO;
+import com.dlut.tradesys.common.vo.CartDetailVO;
 import com.dlut.tradesys.common.vo.CartVO;
 import com.dlut.tradesys.mapper.CartMapper;
 import com.dlut.tradesys.mapper.ItemMapper;
@@ -35,22 +35,22 @@ public class CartServiceImpl implements CartService {
         for (Cart cart : c) shopIds.add(cart.getShopId());
         for (Long shopId : shopIds) {
             CartVO cartVO = new CartVO();
-            List<CartGroupVO> cartGroupVOList = new ArrayList<>();
+            List<CartDetailVO> cartDetailVOList = new ArrayList<>();
             for (Cart cart : c){
                 if (cart.getShopId().equals(shopId)){
                     Item item = itemMapper.getItemById(cart.getItemId());
-                    CartGroupVO cartGroupVO = BeanUtil.copyProperties(item, CartGroupVO.class);
-                    cartGroupVO.setCartId(cart.getId());
-                    cartGroupVO.setItemId(cart.getItemId());
-                    cartGroupVO.setSpecId(cart.getSpecId());
-                    cartGroupVO.setSpec(specMapper.getSpecById(cart.getSpecId()));
-                    cartGroupVO.setAmount(cart.getAmount());
-                    cartGroupVOList.add(cartGroupVO);
+                    CartDetailVO cartDetailVO = BeanUtil.copyProperties(item, CartDetailVO.class);
+                    cartDetailVO.setCartId(cart.getId());
+                    cartDetailVO.setItemId(cart.getItemId());
+                    cartDetailVO.setSpecId(cart.getSpecId());
+                    cartDetailVO.setSpec(specMapper.getSpecById(cart.getSpecId()));
+                    cartDetailVO.setAmount(cart.getAmount());
+                    cartDetailVOList.add(cartDetailVO);
                 }
             }
             cartVO.setShopId(shopId);
             cartVO.setShopName(shopMapper.getShopNameById(shopId));
-            cartVO.setItems(cartGroupVOList);
+            cartVO.setItems(cartDetailVOList);
             cartVOList.add(cartVO);
         }
         return Result.success().addMsg("购物车查询成功.").addData("cartList", cartVOList);
@@ -61,10 +61,10 @@ public class CartServiceImpl implements CartService {
         List<CartVO> cartVOList = (List<CartVO>) getCart(userId).getData().get("cartList");
         for (CartVO cartVO : cartVOList){
             if (cartVO.getShopId().equals(cart.getShopId())){
-                List<CartGroupVO> items = cartVO.getItems();
-                for (CartGroupVO cartGroupVO : items){
-                    if(cartGroupVO.getItemId().equals(cart.getItemId()) && cartGroupVO.getSpecId().equals(cart.getSpecId())){
-                        if(cartMapper.modifyCartAmount(cartGroupVO.getCartId(),cartGroupVO.getAmount() + cart.getAmount())){
+                List<CartDetailVO> items = cartVO.getItems();
+                for (CartDetailVO cartDetailVO : items){
+                    if(cartDetailVO.getItemId().equals(cart.getItemId()) && cartDetailVO.getSpecId().equals(cart.getSpecId())){
+                        if(cartMapper.modifyCartAmount(cartDetailVO.getCartId(), cartDetailVO.getAmount() + cart.getAmount())){
                             return Result.success().addMsg("购物车已存在该物品, 数量增加成功。");
                         }
                     }
@@ -76,9 +76,9 @@ public class CartServiceImpl implements CartService {
 //        boolean updated = cartVOList.stream()
 //                .filter(cartVO -> cartVO.getShopId().equals(cart.getShopId()))
 //                .flatMap(cartVO -> cartVO.getItems().stream())
-//                .anyMatch(cartGroupVO -> cartGroupVO.getItemId().equals(cart.getItemId()) &&
-//                        cartGroupVO.getSpecId().equals(cart.getSpecId()) &&
-//                        cartMapper.modifyCartAmount(cartGroupVO.getCartId(), cartGroupVO.getAmount() + cart.getAmount()));
+//                .anyMatch(cartDetailVO -> cartDetailVO.getItemId().equals(cart.getItemId()) &&
+//                        cartDetailVO.getSpecId().equals(cart.getSpecId()) &&
+//                        cartMapper.modifyCartAmount(cartDetailVO.getCartId(), cartDetailVO.getAmount() + cart.getAmount()));
 //        if(updated){
 //            return Result.success().addMsg("购物车已存在该物品, 数量增加成功。");
 //        }

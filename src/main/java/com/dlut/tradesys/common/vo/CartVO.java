@@ -12,5 +12,5 @@ import java.util.List;
 public class CartVO {
     private Long shopId;
     private String shopName;
-    private List<CartGroupVO> items;
+    private List<CartDetailVO> items;
 }
