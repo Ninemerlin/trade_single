@@ -99,7 +99,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Result deleteCart(Integer cartId) {
+    public Result deleteCart(Long cartId) {
         if(cartMapper.deleteCart(cartId)) {
             return Result.success().addMsg("购物车条目删除成功.");
         }

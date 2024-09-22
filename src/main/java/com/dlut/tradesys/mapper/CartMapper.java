@@ -18,5 +18,9 @@ public interface CartMapper {
     boolean modifyCartAmount(Long cartId, Integer amount);
 
     @Delete("delete from cart where id = #{cartId}")
-    boolean deleteCart(Integer cartId);
+    boolean deleteCart(Long cartId);
+
+    // 外部service使用
+    @Select("select * from cart where id = #{cartId}")
+    Cart getCartById(Long cartId);
 }

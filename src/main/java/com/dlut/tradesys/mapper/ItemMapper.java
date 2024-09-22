@@ -23,4 +23,7 @@ public interface ItemMapper {
     // 外部service使用
     @Select("select * from item where id = #{itemId}")
     Item getItemById(Long itemId);
+
+    @Select("select price from item where id = #{itemId}")
+    Integer getPriceById(Long itemId);
 }

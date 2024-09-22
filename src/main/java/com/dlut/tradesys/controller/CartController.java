@@ -56,7 +56,7 @@ public class CartController {
     }
 
     @DeleteMapping("/deleteCart/{cartId}")
-    public Result deleteCart(@PathVariable Integer cartId) {
+    public Result deleteCart(@PathVariable Long cartId) {
         Long userId = UserContext.getUser();
         System.out.println("[CartService] DeleteCart : userId " + userId + " cartId " + cartId);
         Result result = cartService.deleteCart(cartId);

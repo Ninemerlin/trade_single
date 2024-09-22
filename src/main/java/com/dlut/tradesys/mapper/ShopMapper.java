@@ -25,4 +25,7 @@ public interface ShopMapper {
     // 外部service使用
     @Select("select name from shop where id = #{shopId}")
     String getShopNameById(Long shopId);
+
+    @Select("select owner_id from shop where id = #{shopId}")
+    Long getOwnerIdByShopId(Long shopId);
 }

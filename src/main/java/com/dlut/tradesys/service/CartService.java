@@ -10,5 +10,5 @@ public interface CartService {
 
     Result modifyCartAmount(Long cartId, Integer amount);
 
-    Result deleteCart(Integer cartId);
+    Result deleteCart(Long cartId);
 }

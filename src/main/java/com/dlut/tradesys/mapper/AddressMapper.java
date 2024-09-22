@@ -28,4 +28,8 @@ public interface AddressMapper {
 
     @Select("select * from address where user_id = #{userId} and id = #{addressId}")
     Address checkOwnership(Long userId, Integer addressId);
+
+    // 外部service使用
+    @Select("select * from address where id = #{addressId}")
+    Address getAddressById(Long addressId);
 }

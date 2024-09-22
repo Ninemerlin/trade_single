@@ -6,9 +6,9 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
-                         `id` bigint NOT NULL COMMENT '订单id',
+                         `id` bigint NOT NULL AUTO_INCREMENT COMMENT '订单id',
                          `total_price` int NOT NULL DEFAULT '0' COMMENT '总金额',
-                         `payment_type` tinyint(1) unsigned zerofill NOT NULL COMMENT '支付类型，1、支付宝，2、微信',
+                         `payment_type` tinyint(1) unsigned zerofill NOT NULL COMMENT '支付类型，0、未付款 1、支付宝，2、微信',
                          `seller_id` bigint NOT NULL COMMENT '卖家id',
                          `buyer_id` bigint NOT NULL COMMENT '买家id',
                          `shop_id` bigint NOT NULL COMMENT '商店id',
