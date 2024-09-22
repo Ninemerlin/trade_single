@@ -7,4 +7,8 @@ public interface OrderService {
     Result getOrder(Long userId);
 
     Result createOrder(Long userId, OrderFormDTO form);
+
+    Result deleteOrder(Long orderId);
+
+    Result setOrderStatus(Long orderId, Integer status);
 }

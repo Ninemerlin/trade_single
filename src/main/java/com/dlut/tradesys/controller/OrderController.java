@@ -1,6 +1,7 @@
 package com.dlut.tradesys.controller;
 
 import com.dlut.tradesys.common.dto.OrderFormDTO;
+import com.dlut.tradesys.common.pojo.Address;
 import com.dlut.tradesys.common.pojo.result.Result;
 import com.dlut.tradesys.service.OrderService;
 import com.dlut.tradesys.utils.UserContext;
@@ -47,5 +48,31 @@ public class OrderController {
         }
         System.out.println("[OrderService] CreateAllOrders Completed.");
         return Result.success().addMsg(i + "个订单创建成功.");
+    }
+
+    @DeleteMapping("/deleteOrder/{orderId}")
+    public Result deleteOrder(@PathVariable Long orderId) {
+        Long userId = UserContext.getUser();
+        System.out.println("[OrderService] DeleteOrder : userId " + userId + " orderId " + orderId);
+        Result result = orderService.deleteOrder(orderId);
+        if(result.getCode() == 200){
+            System.out.println("[OrderService] DeleteOrder Succeeded.");
+            return result;
+        }
+        System.out.println("[OrderService] DeleteOrder Failed.");
+        return result;
+    }
+
+    @PutMapping("/setOrderStatus/{orderId}/{status}")
+    public Result setOrderStatus(@PathVariable Long orderId, @PathVariable Integer status) {
+        Long userId = UserContext.getUser();
+        System.out.println("[OrderService] SetOrderStatus : userId " + userId + " orderId " + orderId + " status " + status);
+        Result result = orderService.setOrderStatus(orderId, status);
+        if(result.getCode() == 200){
+            System.out.println("[OrderService] SetOrderStatus Succeeded.");
+            return result;
+        }
+        System.out.println("[OrderService] SetOrderStatus Failed.");
+        return result;
     }
 }

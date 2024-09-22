@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class OderDetailServiceImpl implements OderDetailService {
+public class OrderDetailServiceImpl implements OderDetailService {
 }

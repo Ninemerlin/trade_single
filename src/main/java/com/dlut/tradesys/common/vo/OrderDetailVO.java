@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class OrderDetailVO {
+public class OrderDetailVO { // 看需求, 暂时没用
     private Long orderDetailId;
     private Long orderId;
     private String name;

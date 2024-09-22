@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class OrderVO {
+public class OrderVO { // 看需求, 暂时没用
     private Long orderId;
     private Long buyerId;
     private Long shopId;

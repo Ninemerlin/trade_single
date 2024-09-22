@@ -68,4 +68,37 @@ public class OrderServiceImpl implements OrderService {
         }
         return Result.fail().addMsg("订单创建失败.");
     }
+
+    @Override
+    public Result deleteOrder(Long orderId) {
+        if(orderDetailMapper.deleteOrderDetailByOrderId(orderId) && orderMapper.deleteOrder(orderId)) {
+            return Result.success().addMsg("订单删除成功.");
+        }
+        return Result.fail().addMsg("订单删除失败.");
+    }
+
+    @Override
+    public Result setOrderStatus(Long orderId, Integer status) {
+        Integer orderStatus = orderMapper.getOrderStatus(orderId);
+        if(orderStatus == 4 || orderStatus == 5 || orderStatus == 7) {
+            Result.fail().addMsg("订单流程已结束.");
+        }
+        switch(status){
+            case 2:
+                orderMapper.setPayTime(orderId, LocalDateTime.now());
+                break;
+            case 3:
+                orderMapper.setConsignTime(orderId, LocalDateTime.now());
+                break;
+            case 4:
+            case 5:
+            case 7:
+                orderMapper.setEndTime(orderId, LocalDateTime.now());
+                break;
+        }
+        if(orderMapper.setOrderStatus(orderId, status)) {
+            return Result.success().addMsg("订单状态修改成功.");
+        }
+        return Result.fail().addMsg("订单状态修改失败.");
+    }
 }
