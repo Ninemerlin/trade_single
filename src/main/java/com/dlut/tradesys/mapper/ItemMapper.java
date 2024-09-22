@@ -1,10 +1,7 @@
 package com.dlut.tradesys.mapper;
 
 import com.dlut.tradesys.common.pojo.Item;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -22,4 +19,8 @@ public interface ItemMapper {
 
     @Delete("delete from item where id = #{itemId}")
     boolean deleteItem(Long itemId);
+
+    // 外部service使用
+    @Select("select * from item where id = #{itemId}")
+    Item getItemById(Long itemId);
 }

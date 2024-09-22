@@ -21,4 +21,8 @@ public interface ShopMapper {
 
     @Delete("delete from shop where id = #{shopId}")
     boolean deleteShop(Integer shopId);
+
+    // 外部service使用
+    @Select("select name from shop where id = #{shopId}")
+    String getShopNameById(Long shopId);
 }

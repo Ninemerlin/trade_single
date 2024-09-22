@@ -17,7 +17,7 @@ public class SpecServiceImpl implements SpecService {
     private final SpecMapper specMapper;
 
     @Override
-    public Result getSpec(Integer itemId) {
+    public Result getSpec(Long itemId) {
         List<Spec> s = specMapper.getSpec(itemId);
         if(s != null) {
             return Result.success().addMsg("规格查询成功.").addData("specList",s);
@@ -26,7 +26,7 @@ public class SpecServiceImpl implements SpecService {
     }
 
     @Override
-    public Result addSpec(Integer itemId, String name) {
+    public Result addSpec(Long itemId, String name) {
         if(specMapper.addSpec(itemId, name)) {
             return Result.success().addMsg("规格添加成功.");
         }
@@ -34,7 +34,7 @@ public class SpecServiceImpl implements SpecService {
     }
 
     @Override
-    public Result deleteSpec(Integer specId) {
+    public Result deleteSpec(Long specId) {
         if(specMapper.deleteSpec(specId)) {
             return Result.success().addMsg("规格删除成功.");
         }

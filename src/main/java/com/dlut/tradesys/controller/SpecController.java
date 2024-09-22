@@ -15,7 +15,7 @@ public class SpecController {
     private final SpecService specService;
 
     @GetMapping("/getSpec")
-    public Result getSpec(Integer itemId) {
+    public Result getSpec(Long itemId) {
         Long userId = UserContext.getUser();
         System.out.println("[SpecService] GetSpec : userId " + userId);
         Result result = specService.getSpec(itemId);
@@ -28,7 +28,7 @@ public class SpecController {
     }
 
     @PostMapping("/addSpec")
-    public Result addSpec(Integer itemId, String name) {
+    public Result addSpec(Long itemId, String name) {
         Long userId = UserContext.getUser();
         System.out.println("[SpecService] AddSpec : userId " + userId);
         Result result = specService.addSpec(itemId, name);
@@ -41,7 +41,7 @@ public class SpecController {
     }
 
     @DeleteMapping("/deleteSpec/{specId}")
-    public Result deleteSpec(@PathVariable Integer specId) {
+    public Result deleteSpec(@PathVariable Long specId) {
         Long userId = UserContext.getUser();
         System.out.println("[SpecService] DeleteSpec : userId " + userId);
         Result result = specService.deleteSpec(specId);

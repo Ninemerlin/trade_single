@@ -11,11 +11,15 @@ import java.util.List;
 @Mapper
 public interface SpecMapper {
     @Select("select * from spec where item_id = #{itemId}")
-    List<Spec> getSpec(Integer itemId);
+    List<Spec> getSpec(Long itemId);
 
     @Insert("insert into spec (item_id, name) values (#{itemId}, #{name})")
-    boolean addSpec(Integer itemId, String name);
+    boolean addSpec(Long itemId, String name);
 
     @Delete("delete from spec where id = #{specId}")
-    boolean deleteSpec(Integer specId);
+    boolean deleteSpec(Long specId);
+
+    // 外部service使用
+    @Select("select name from spec where id = #{specId}")
+    String getSpecById(Integer specId);
 }
