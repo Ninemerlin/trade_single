@@ -2,10 +2,7 @@ package com.dlut.tradesys.service.impl;
 
 import com.dlut.tradesys.common.dto.OrderFormDTO;
 import com.dlut.tradesys.common.enums.OrderStatus;
-import com.dlut.tradesys.common.pojo.Address;
-import com.dlut.tradesys.common.pojo.Cart;
-import com.dlut.tradesys.common.pojo.Order;
-import com.dlut.tradesys.common.pojo.OrderDetail;
+import com.dlut.tradesys.common.pojo.*;
 import com.dlut.tradesys.common.pojo.result.Result;
 import com.dlut.tradesys.mapper.*;
 import com.dlut.tradesys.service.OrderService;
@@ -23,6 +20,8 @@ public class OrderServiceImpl implements OrderService {
     private final AddressMapper addressMapper;
     private final ShopMapper shopMapper;
     private final ItemMapper itemMapper;
+    private final SpecMapper specMapper;
+    private final OrderDetailMapper orderDetailMapper;
 
     @Override
     public Result getOrder(Long userId) {
@@ -62,9 +61,22 @@ public class OrderServiceImpl implements OrderService {
         if(orderMapper.createOrder(order)) {
             System.out.println(order.toString());
             for(Long cartId : cartIds) {
-                // 创建orderDetail
+                // 创建orderDetail并移除cart
+                Cart cart = cartMapper.getCartById(cartId);
+                Item item = itemMapper.getItemById(cart.getItemId());
+                String spec = specMapper.getSpecById(cart.getSpecId());
+
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setOrderId(order.getId());
+                orderDetail.setItemId(item.getId());
+                orderDetail.setAmount(cart.getAmount());
+                orderDetail.setName(item.getName());
+                orderDetail.setSpec(spec);
+                orderDetail.setPrice(item.getPrice());
+                orderDetail.setImage(item.getImage());
+                if(orderDetailMapper.createOrderDetail(orderDetail)){
+                    System.out.println(orderDetail.toString());
+                }
                 // cartMapper.deleteCart(cartId);
             }
             return Result.success().addMsg("订单创建成功.");

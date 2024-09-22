@@ -1,7 +1,12 @@
 package com.dlut.tradesys.mapper;
 
+import com.dlut.tradesys.common.pojo.OrderDetail;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface OrderDetailMapper {
+    @Insert("insert into order_detail (order_id, item_id, amount, name, spec, price, image) VALUES " +
+            "(#{orderId}, #{itemId}, #{amount}, #{name}, #{spec}, #{price}, #{image})")
+    boolean createOrderDetail(OrderDetail orderDetail);
 }
