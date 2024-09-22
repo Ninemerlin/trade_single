@@ -43,4 +43,22 @@ public class ItemServiceImpl implements ItemService {
         }
         return Result.fail().addMsg("商品添加失败.");
     }
+
+    @Override
+    public Result modifyItem(Item item) {
+        item.setUpdateTime(LocalDateTime.now());
+        System.out.println(item.toString());
+        if(itemMapper.modifyItem(item)) {
+            return Result.success().addMsg("商品修改成功.");
+        }
+        return Result.fail().addMsg("商品修改失败.");
+    }
+
+    @Override
+    public Result deleteItem(Long itemId) {
+        if(itemMapper.deleteItem(itemId)) {
+            return Result.success().addMsg("商品删除成功.");
+        }
+        return Result.fail().addMsg("商品删除失败.");
+    }
 }

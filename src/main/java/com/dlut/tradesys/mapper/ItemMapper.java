@@ -1,8 +1,10 @@
 package com.dlut.tradesys.mapper;
 
 import com.dlut.tradesys.common.pojo.Item;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -13,4 +15,11 @@ public interface ItemMapper {
     @Insert("insert into item (name, price, stock, image, category, brand, sold, status, create_time, update_time, shop_id) values " +
             "(#{name}, #{price}, #{stock}, #{image}, #{category}, #{brand}, #{sold}, #{status}, #{createTime}, #{updateTime}, #{shopId})")
     boolean addItem(Item item);
+
+    @Update("update item set name = #{name}, price = #{price}, stock = #{stock}, image = #{image}, category = #{category}, brand = #{brand}, update_time = #{updateTime} " +
+            "where id = #{id}")
+    boolean modifyItem(Item item);
+
+    @Delete("delete from item where id = #{itemId}")
+    boolean deleteItem(Long itemId);
 }

@@ -1,6 +1,7 @@
 package com.dlut.tradesys.controller;
 
 import com.dlut.tradesys.common.dto.ItemFormDTO;
+import com.dlut.tradesys.common.pojo.Item;
 import com.dlut.tradesys.common.pojo.result.Result;
 import com.dlut.tradesys.service.ItemService;
 import com.dlut.tradesys.utils.UserContext;
@@ -38,6 +39,32 @@ public class ItemController {
             return result;
         }
         System.out.println("[ItemService] AddItem Failed.");
+        return result;
+    }
+
+    @PutMapping("/modifyItem")
+    public Result modifyItem(@RequestBody Item item) {
+        Long userId = UserContext.getUser();
+        System.out.println("[ItemService] Item Modification : userId " + userId);
+        Result result = itemService.modifyItem(item);
+        if(result.getCode() == 200){
+            System.out.println("[ItemService] Item Modification Succeeded.");
+            return result;
+        }
+        System.out.println("[ItemService] AddItem Modification Failed.");
+        return result;
+    }
+
+    @DeleteMapping("/deleteItem/{itemId}")
+    public Result deleteItem(@PathVariable Long itemId) {
+        Long userId = UserContext.getUser();
+        System.out.println("[ItemService] DeleteItem : userId " + userId + " itemId " + itemId);
+        Result result = itemService.deleteItem(itemId);
+        if(result.getCode() == 200){
+            System.out.println("[ItemService] DeleteItem Succeeded.");
+            return result;
+        }
+        System.out.println("[ItemService] DeleteItem Failed.");
         return result;
     }
 }
