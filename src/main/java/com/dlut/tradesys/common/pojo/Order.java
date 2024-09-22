@@ -19,6 +19,7 @@ public class Order{
     private Long id;
     private Integer totalPrice;
     private Integer paymentType;
+    private Long sellerId;
     private Long buyerId;
     private Long shopId;
     private String address;

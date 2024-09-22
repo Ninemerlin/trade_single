@@ -12,7 +12,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class OrderVO {
-    private Long id;
+    private Long orderId;
     private Long buyerId;
     private Long shopId;
     private String shopName;
