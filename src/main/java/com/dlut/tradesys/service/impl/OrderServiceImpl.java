@@ -39,24 +39,17 @@ public class OrderServiceImpl implements OrderService {
         List<Long> cartIds = form.getCartIds();
         System.out.println("shopId " + shopId + " addressId " + addressId + " cartIds " + cartIds);
 
-        Order order = new Order();
-        order.setCreateTime(LocalDateTime.now());
-        order.setStatus(OrderStatus.UNPAID);
-        Address address = addressMapper.getAddressById(addressId);
-        String addressStr = address.getProvince() + " " + address.getCity() + " " + address.getTown() + " " + address.getStreet()
-                + " " + address.getReceiver() + " " + address.getMobile();
-        order.setAddress(addressStr);
-        order.setShopId(shopId);
-        order.setBuyerId(userId);
-        order.setSellerId(shopMapper.getOwnerIdByShopId(shopId));
-        order.setPaymentType(0);
         Integer totalPrice = 0;
         for(Long cartId : cartIds) {
             Cart cart = cartMapper.getCartById(cartId);
             Integer price = itemMapper.getPriceById(cart.getItemId());
             totalPrice += cart.getAmount() * price;
         }
-        order.setTotalPrice(totalPrice);
+        Long sellerId = shopMapper.getOwnerIdByShopId(shopId);
+        Address address = addressMapper.getAddressById(addressId);
+        String addressStr = address.getProvince() + " " + address.getCity() + " " + address.getTown() + " " + address.getStreet()
+                + " " + address.getReceiver() + " " + address.getMobile();
+        Order order = new Order(null, totalPrice, 0, sellerId, userId, shopId, addressStr, OrderStatus.UNPAID, LocalDateTime.now(), null, null, null);
 
         if(orderMapper.createOrder(order)) {
             System.out.println(order.toString());
@@ -65,19 +58,11 @@ public class OrderServiceImpl implements OrderService {
                 Cart cart = cartMapper.getCartById(cartId);
                 Item item = itemMapper.getItemById(cart.getItemId());
                 String spec = specMapper.getSpecById(cart.getSpecId());
-
-                OrderDetail orderDetail = new OrderDetail();
-                orderDetail.setOrderId(order.getId());
-                orderDetail.setItemId(item.getId());
-                orderDetail.setAmount(cart.getAmount());
-                orderDetail.setName(item.getName());
-                orderDetail.setSpec(spec);
-                orderDetail.setPrice(item.getPrice());
-                orderDetail.setImage(item.getImage());
+                OrderDetail orderDetail = new OrderDetail(null, order.getId(), item.getId(), cart.getAmount(), item.getName(), spec, item.getPrice(), item.getImage());
                 if(orderDetailMapper.createOrderDetail(orderDetail)){
                     System.out.println(orderDetail.toString());
                 }
-                // cartMapper.deleteCart(cartId);
+                // cartMapper.deleteCart(cartId); // 测试先注了
             }
             return Result.success().addMsg("订单创建成功.");
         }
