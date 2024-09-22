@@ -18,5 +18,5 @@ public class ItemFormDTO {
     private String category;
     private String brand;
     private Long shopId;
-    private List<Spec> specList;
+//    private List<Spec> specList;
 }

@@ -17,10 +17,10 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping("/itemSearch")
-    public Result itemSearch(Integer pageSize, Integer currentPage, String keyword, String category, String orderBy) {
+    public Result itemSearch(Integer pageSize, Integer currentPage, String keyword, String category, String orderBy, Long shopId) {
         Long userId = UserContext.getUser();
         System.out.println("[ItemService] ItemSearch : userId " + userId);
-        Result result = itemService.itemSearch(pageSize, currentPage, keyword, category, orderBy);
+        Result result = itemService.itemSearch(pageSize, currentPage, keyword, category, orderBy, shopId);
         if(result.getCode() == 200){
             System.out.println("[ItemService] ItemSearch Succeeded.");
             return result;
