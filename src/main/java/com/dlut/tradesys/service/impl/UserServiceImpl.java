@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result modifyIcon(Long userId, String url) {
-        if(userMapper.modifyIconPath(userId, url)) {
+        if(userMapper.modifyIconPath(userId, url) && userMapper.setUpdateTime(userId ,LocalDateTime.now())) {
             return Result.success().addMsg("头像修改成功.");
         }
         return Result.fail().addMsg("头像修改失败.");
@@ -109,12 +109,13 @@ public class UserServiceImpl implements UserService {
                 throw new RuntimeException(e);
             }
         }
+        userMapper.setUpdateTime(userId ,LocalDateTime.now());
         return Result.success().addMsg("用户信息更新成功.");
     }
 
     @Override
     public Result modifyMail(Long userId, String mail) {
-        if(userMapper.modifyMail(userId, mail)) {
+        if(userMapper.modifyMail(userId, mail) && userMapper.setUpdateTime(userId ,LocalDateTime.now())) {
             return Result.success().addMsg("邮箱修改成功.");
         }
         return Result.fail().addMsg("邮箱修改失败.");
@@ -122,7 +123,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result modifyPwd(Long userId, String password) {
-        if(userMapper.modifyPwd(userId, password)) {
+        if(userMapper.modifyPwd(userId, password) && userMapper.setUpdateTime(userId ,LocalDateTime.now())) {
             return Result.success().addMsg("密码修改成功.");
         }
         return Result.fail().addMsg("密码修改失败.");

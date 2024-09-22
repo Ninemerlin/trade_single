@@ -3,6 +3,8 @@ package com.dlut.tradesys.mapper;
 import com.dlut.tradesys.common.pojo.User;
 import org.apache.ibatis.annotations.*;
 
+import java.time.LocalDateTime;
+
 @Mapper
 public interface UserMapper {
     @Select("select * from user where username = #{username}")
@@ -26,6 +28,9 @@ public interface UserMapper {
 
     @Update("update user set password = #{password} where id = #{userId}")
     boolean modifyPwd(Long userId, String password);
+
+    @Update("update user set update_time = #{updateTime} where id = #{userId}")
+    boolean setUpdateTime(Long userId, LocalDateTime updateTime);
 
     // 任意列修改
     @Update("update user set ${column} = #{value} where id = #{userId}")

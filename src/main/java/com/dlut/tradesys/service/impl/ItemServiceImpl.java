@@ -1,5 +1,8 @@
 package com.dlut.tradesys.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.dlut.tradesys.common.dto.ItemFormDTO;
+import com.dlut.tradesys.common.enums.ItemStatus;
 import com.dlut.tradesys.common.pojo.Item;
 import com.dlut.tradesys.common.pojo.PageBean;
 import com.dlut.tradesys.common.pojo.result.Result;
@@ -10,6 +13,7 @@ import com.github.pagehelper.PageHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,5 +28,19 @@ public class ItemServiceImpl implements ItemService {
         Page<Item> p = (Page<Item>)itemList;
         PageBean pageBean = new PageBean(p.getTotal(),p.getPageSize(),p.getPageNum(),p.getPages(),p.getResult());
         return Result.success().addMsg("商品查询成功.").addData("itemPages", pageBean);
+    }
+
+    @Override
+    public Result addItem(ItemFormDTO form) {
+        Item item = BeanUtil.copyProperties(form, Item.class);
+        item.setCreateTime(LocalDateTime.now());
+        item.setUpdateTime(LocalDateTime.now());
+        item.setStatus(ItemStatus.NORMAL);
+        item.setSold(0);
+        System.out.println(item.toString());
+        if(itemMapper.addItem(item)) {
+            return Result.success().addMsg("商品添加成功.");
+        }
+        return Result.fail().addMsg("商品添加失败.");
     }
 }

@@ -1,13 +1,12 @@
 package com.dlut.tradesys.controller;
 
+import com.dlut.tradesys.common.dto.ItemFormDTO;
 import com.dlut.tradesys.common.pojo.result.Result;
 import com.dlut.tradesys.service.ItemService;
 import com.dlut.tradesys.utils.UserContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/item")
 @RestController
@@ -26,6 +25,19 @@ public class ItemController {
             return result;
         }
         System.out.println("[ItemService] ItemSearch Failed.");
+        return result;
+    }
+
+    @PostMapping("/addItem")
+    public Result addItem(@RequestBody ItemFormDTO form) {
+        Long userId = UserContext.getUser();
+        System.out.println("[ItemService] AddItem : userId " + userId);
+        Result result = itemService.addItem(form);
+        if(result.getCode() == 200){
+            System.out.println("[ItemService] AddItem Succeeded.");
+            return result;
+        }
+        System.out.println("[ItemService] AddItem Failed.");
         return result;
     }
 }
