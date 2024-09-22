@@ -37,10 +37,12 @@ public class CartServiceImpl implements CartService {
             CartVO cartVO = new CartVO();
             List<CartGroupVO> cartGroupVOList = new ArrayList<>();
             for (Cart cart : c){
-                if (cart.getShopId() == shopId){
+                if (cart.getShopId().equals(shopId)){
                     Item item = itemMapper.getItemById(cart.getItemId());
                     CartGroupVO cartGroupVO = BeanUtil.copyProperties(item, CartGroupVO.class);
+                    cartGroupVO.setCartId(cart.getId());
                     cartGroupVO.setItemId(cart.getItemId());
+                    cartGroupVO.setSpecId(cart.getSpecId());
                     cartGroupVO.setSpec(specMapper.getSpecById(cart.getSpecId()));
                     cartGroupVO.setAmount(cart.getAmount());
                     cartGroupVOList.add(cartGroupVO);
@@ -56,6 +58,20 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Result addCart(Long userId, Cart cart) {
+        List<CartVO> cartVOList = (List<CartVO>) getCart(userId).getData().get("cartList");
+
+        for (CartVO cartVO : cartVOList){
+            if (cartVO.getShopId().equals(cart.getShopId())){
+                List<CartGroupVO> items = cartVO.getItems();
+                for (CartGroupVO cartGroupVO : items){
+                    if(cartGroupVO.getItemId().equals(cart.getItemId()) && cartGroupVO.getSpecId().equals(cart.getSpecId())){
+                        if(cartMapper.modifyCartAmount(cartGroupVO.getCartId(),cartGroupVO.getAmount() + cart.getAmount())){
+                            return Result.success().addMsg("购物车已存在该物品, 数量增加成功。");
+                        }
+                    }
+                }
+            }
+        }
         cart.setUserId(userId);
         if(cartMapper.addCart(cart)) {
             return Result.success().addMsg("购物车添加成功.");

@@ -8,7 +8,9 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class CartGroupVO {
+    private Long cartId;
     private Long itemId;
+    private Long specId;
     private String name;
     private String image;
     private String spec;

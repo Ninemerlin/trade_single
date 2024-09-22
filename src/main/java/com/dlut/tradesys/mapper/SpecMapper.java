@@ -21,5 +21,5 @@ public interface SpecMapper {
 
     // 外部service使用
     @Select("select name from spec where id = #{specId}")
-    String getSpecById(Integer specId);
+    String getSpecById(Long specId);
 }
