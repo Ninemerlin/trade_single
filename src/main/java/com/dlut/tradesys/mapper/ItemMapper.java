@@ -26,4 +26,13 @@ public interface ItemMapper {
 
     @Select("select price from item where id = #{itemId}")
     Integer getPriceById(Long itemId);
+
+    @Select("select stock from item where id = #{itemId}")
+    Integer getStockById(Long itemId);
+
+    @Select("select sold from item where id = #{itemId}")
+    Integer getSoldById(Long itemId);
+
+    @Update("update item set stock = #{stock}, sold = #{sold} where id = #{itemId}")
+    boolean setStockAndSold(Long itemId, Integer stock, Integer sold);
 }

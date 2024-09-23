@@ -2,6 +2,7 @@ package com.dlut.tradesys.controller;
 
 import com.dlut.tradesys.common.dto.OrderFormDTO;
 import com.dlut.tradesys.common.pojo.Address;
+import com.dlut.tradesys.common.pojo.Cart;
 import com.dlut.tradesys.common.pojo.result.Result;
 import com.dlut.tradesys.service.OrderService;
 import com.dlut.tradesys.utils.UserContext;
@@ -61,6 +62,19 @@ public class OrderController {
         }
         System.out.println("[OrderService] CreateAllOrders Completed.");
         return Result.success().addMsg(i + "个订单创建成功.");
+    }
+
+    @PostMapping("/createOrderAtOnce/{addressId}")
+    public Result createOrderAtOnce(@PathVariable Long addressId, @RequestBody Cart cart){
+        Long userId = UserContext.getUser();
+        System.out.println("[OrderService] CreateOrderAtOnce : userId " + userId);
+        Result result = orderService.createOrderAtOnce(userId, addressId, cart);
+        if(result.getCode() == 200) {
+            System.out.println("[OrderService] CreateOrderAtOnce Completed.");
+            return result;
+        }
+        System.out.println("[OrderService] CreateOrderAtOnce Failed.");
+        return result;
     }
 
     @DeleteMapping("/deleteOrder/{orderId}")

@@ -58,6 +58,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Result addCart(Long userId, Cart cart) {
+        cart.setShopId(itemMapper.getItemById(cart.getItemId()).getShopId()); // 新增, 现在前端无需传shopId
         List<CartVO> cartVOList = (List<CartVO>) getCart(userId).getData().get("cartList");
         for (CartVO cartVO : cartVOList){
             if (cartVO.getShopId().equals(cart.getShopId())){

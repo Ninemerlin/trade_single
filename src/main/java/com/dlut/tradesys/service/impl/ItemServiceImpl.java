@@ -61,4 +61,11 @@ public class ItemServiceImpl implements ItemService {
         }
         return Result.fail().addMsg("商品删除失败.");
     }
+
+    @Override
+    public boolean deductStockAndIncreaseSold(Long itemId, Integer amount) {
+        Integer stock = itemMapper.getStockById(itemId);
+        Integer sold = itemMapper.getSoldById(itemId);
+        return itemMapper.setStockAndSold(itemId, stock - amount, sold + amount);
+    }
 }

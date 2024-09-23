@@ -5,6 +5,7 @@ import com.dlut.tradesys.common.enums.OrderStatus;
 import com.dlut.tradesys.common.pojo.*;
 import com.dlut.tradesys.common.pojo.result.Result;
 import com.dlut.tradesys.mapper.*;
+import com.dlut.tradesys.service.ItemService;
 import com.dlut.tradesys.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ public class OrderServiceImpl implements OrderService {
     private final SpecMapper specMapper;
     private final OrderDetailMapper orderDetailMapper;
     private final UserMapper userMapper;
+
+    private final ItemService itemService;
 
     @Override
     public Result getOrder(Long userId) {
@@ -79,14 +82,40 @@ public class OrderServiceImpl implements OrderService {
                 Item item = itemMapper.getItemById(cart.getItemId());
                 String spec = specMapper.getSpecById(cart.getSpecId());
                 OrderDetail orderDetail = new OrderDetail(null, order.getId(), item.getId(), cart.getAmount(), item.getName(), spec, item.getPrice(), item.getImage());
-                if(orderDetailMapper.createOrderDetail(orderDetail)){
+                if(orderDetailMapper.createOrderDetail(orderDetail) && itemService.deductStockAndIncreaseSold(cart.getItemId(), cart.getAmount())){
                     System.out.println(orderDetail.toString());
+                } else {
+                    return Result.fail().addMsg("订单详情创建失败.");
                 }
                 // cartMapper.deleteCart(cartId); // 测试先注了
             }
             return Result.success().addMsg("订单创建成功.");
         }
         return Result.fail().addMsg("订单创建失败.");
+    }
+
+    @Override
+    public Result createOrderAtOnce(Long userId, Long addressId, Cart cart) {
+        Item item = itemMapper.getItemById(cart.getItemId());
+        Long shopId = item.getShopId();
+        Integer amount = cart.getAmount();
+        Address address = addressMapper.getAddressById(addressId);
+        String addressStr = address.getProvince() + " " + address.getCity() + " " + address.getTown() + " " + address.getStreet()
+                + " " + address.getReceiver() + " " + address.getMobile();
+        Order order = new Order(null, item.getPrice() * amount, 0, shopMapper.getOwnerIdByShopId(shopId), userId, shopId, addressStr, OrderStatus.UNPAID, LocalDateTime.now(), null, null, null);
+
+        if(orderMapper.createOrder(order)) {
+            System.out.println(order.toString());
+            String spec = specMapper.getSpecById(cart.getSpecId());
+            OrderDetail orderDetail = new OrderDetail(null, order.getId(), item.getId(), amount, item.getName(), spec, item.getPrice(), item.getImage());
+            if(orderDetailMapper.createOrderDetail(orderDetail)){
+                System.out.println(orderDetail.toString());
+            } else {
+                return Result.fail().addMsg("订单详情创建失败(立即支付).");
+            }
+            return Result.success().addMsg("订单创建成功(立即支付).");
+        }
+        return Result.fail().addMsg("订单创建失败(立即支付).");
     }
 
     @Override
