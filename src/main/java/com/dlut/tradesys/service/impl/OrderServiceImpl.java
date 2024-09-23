@@ -22,14 +22,34 @@ public class OrderServiceImpl implements OrderService {
     private final ItemMapper itemMapper;
     private final SpecMapper specMapper;
     private final OrderDetailMapper orderDetailMapper;
+    private final UserMapper userMapper;
 
     @Override
     public Result getOrder(Long userId) {
-        List<Order> o = orderMapper.getOrder(userId);
+        List<Order> o = null;
+        if(userMapper.getUserById(userId).getUserType() == 3){
+            o = orderMapper.getAllOrders();
+        } else {
+            o = orderMapper.getOrder(userId);
+        }
         if(o != null) {
             return Result.success().addMsg("订单查询成功.").addData("orderList",o);
         }
         return Result.fail().addMsg("订单查询失败.");
+    }
+
+    @Override
+    public Result getSellerOrder(Long userId) {
+        List<Order> o = null;
+        if(userMapper.getUserById(userId).getUserType() == 3){
+            o = orderMapper.getAllOrders();
+        } else {
+            o = orderMapper.getSellerOrder(userId);
+        }
+        if(o != null) {
+            return Result.success().addMsg("卖家订单查询成功.").addData("orderList",o);
+        }
+        return Result.fail().addMsg("卖家订单查询失败.");
     }
 
     @Override

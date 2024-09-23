@@ -11,4 +11,6 @@ public interface OrderService {
     Result deleteOrder(Long orderId);
 
     Result setOrderStatus(Long orderId, Integer status);
+
+    Result getSellerOrder(Long userId);
 }

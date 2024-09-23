@@ -31,6 +31,19 @@ public class OrderController {
         return result;
     }
 
+    @GetMapping("/getSellerOrder")
+    public Result getSellerOrder(){
+        Long userId = UserContext.getUser();
+        System.out.println("[OrderService] GetSellerOrder : userId " + userId);
+        Result result = orderService.getSellerOrder(userId);
+        if(result.getCode() == 200){
+            System.out.println("[OrderService] GetSellerOrder Succeeded.");
+            return result;
+        }
+        System.out.println("[OrderService] GetSellerOrder Failed.");
+        return result;
+    }
+
     @PostMapping("/createOrder")
     public Result createOrder(@RequestBody List<OrderFormDTO> formList){
         Long userId = UserContext.getUser();
