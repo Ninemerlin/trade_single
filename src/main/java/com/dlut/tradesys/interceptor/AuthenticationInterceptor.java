@@ -29,10 +29,15 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             return true;
         }
 
+        if(url.contains("/item/itemSearch")){
+            log.info("商品查询操作,放行.");
+            return true;
+        }
+
         String jwt = req.getHeader("token");
         if(!StringUtils.hasLength(jwt)){
             log.info("Token为空,未登录.");
-            Result error = Result.fail().addMsg("NOT_LOGIN");
+            Result error = Result.fail().setCode(401).addMsg("NOT_LOGIN");
             String notLogin = JSONObject.toJSONString(error);
             res.getWriter().write(notLogin);
             return false;
@@ -44,7 +49,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         } catch (Exception e) {
             e.printStackTrace();
             log.info("解析令牌失败.");
-            Result error = Result.fail().addMsg("NOT_LOGIN");
+            Result error = Result.fail().setCode(401).addMsg("NOT_LOGIN");
             String notLogin = JSONObject.toJSONString(error);
             res.getWriter().write(notLogin);
             return false;

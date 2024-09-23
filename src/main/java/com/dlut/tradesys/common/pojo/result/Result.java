@@ -3,12 +3,14 @@ package com.dlut.tradesys.common.pojo.result;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.util.HashMap;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 public class Result {
     private Integer code;
     private String message;
