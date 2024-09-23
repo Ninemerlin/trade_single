@@ -68,4 +68,11 @@ public class ItemServiceImpl implements ItemService {
         Integer sold = itemMapper.getSoldById(itemId);
         return itemMapper.setStockAndSold(itemId, stock - amount, sold + amount);
     }
+
+    @Override
+    public boolean increaseStockAndDeductSold(Long itemId, Integer amount) {
+        Integer stock = itemMapper.getStockById(itemId);
+        Integer sold = itemMapper.getSoldById(itemId);
+        return itemMapper.setStockAndSold(itemId, stock + amount, sold - amount);
+    }
 }

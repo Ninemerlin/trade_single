@@ -14,4 +14,6 @@ public interface ItemService {
     Result deleteItem(Long itemId);
 
     boolean deductStockAndIncreaseSold(Long itemId, Integer amount);
+
+    boolean increaseStockAndDeductSold(Long itemId, Integer amount);
 }

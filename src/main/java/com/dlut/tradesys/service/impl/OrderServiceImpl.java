@@ -132,16 +132,24 @@ public class OrderServiceImpl implements OrderService {
         if(orderStatus == 4 || orderStatus == 5 || orderStatus == 7) {
             Result.fail().addMsg("订单流程已结束.");
         }
-        switch(status){
+        switch(status) {
             case 2:
                 orderMapper.setPayTime(orderId, LocalDateTime.now());
                 break;
             case 3:
                 orderMapper.setConsignTime(orderId, LocalDateTime.now());
                 break;
-            case 4:
             case 5:
             case 7:
+                List<OrderDetail> orderDetails = orderDetailMapper.getOrderDetail(orderId);
+                for(OrderDetail orderDetail : orderDetails) {
+                    if(itemService.increaseStockAndDeductSold(orderDetail.getItemId(), orderDetail.getAmount())) {
+                        System.out.println(orderDetail.toString() + " Recovered.");
+                    } else {
+                        return Result.fail().addMsg("订单状态修改失败, 商品数据恢复错误.");
+                    }
+                }
+            case 4:
                 orderMapper.setEndTime(orderId, LocalDateTime.now());
                 break;
         }
