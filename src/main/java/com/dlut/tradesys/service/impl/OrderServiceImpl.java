@@ -87,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
                 } else {
                     return Result.fail().addMsg("订单详情创建失败.");
                 }
-                // cartMapper.deleteCart(cartId); // 测试先注了
+                cartMapper.deleteCart(cartId); // 测试先注了
             }
             return Result.success().addMsg("订单创建成功.");
         }
