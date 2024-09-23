@@ -108,7 +108,7 @@ public class OrderServiceImpl implements OrderService {
             System.out.println(order.toString());
             String spec = specMapper.getSpecById(cart.getSpecId());
             OrderDetail orderDetail = new OrderDetail(null, order.getId(), item.getId(), amount, item.getName(), spec, item.getPrice(), item.getImage());
-            if(orderDetailMapper.createOrderDetail(orderDetail)){
+            if(orderDetailMapper.createOrderDetail(orderDetail) && itemService.deductStockAndIncreaseSold(item.getId(), amount)){
                 System.out.println(orderDetail.toString());
             } else {
                 return Result.fail().addMsg("订单详情创建失败(立即支付).");
